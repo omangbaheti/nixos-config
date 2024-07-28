@@ -1,7 +1,8 @@
 {
   description = "NixOS Config";
 
-  inputs = {
+  inputs = 
+  {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-24.05";
     emacs-pin-nixpkgs.url = "nixpkgs/f72123158996b8d4449de481897d855bc47c7bf6";
@@ -125,13 +126,13 @@
       {
         username = "fern "; # username
         name = "fern"; # name/identifier
-        email = "fern@librephoenix.com"; # email (used for certain configurations)
+        email = "omangbaheti@gmail.com"; # email (used for certain configurations)
         dotfilesDir = "~/.dotfiles"; # absolute path of the local repo
         theme = "io"; # selcted theme from my themes directory (./themes/)
         wm = "hyprland"; # Selected window manager or desktop environment; must select one in both ./user/wm/ and ./system/wm/
         # window manager type (hyprland or x11) translator
         wmType = if (wm == "hyprland") then "wayland" else "x11";
-        browser = "qutebrowser"; # Default browser; must select one from ./user/app/browser/
+        browser = "brave"; # Default browser; must select one from ./user/app/browser/
         defaultRoamDir = "Personal.p"; # Default org roam directory relative to ~/Org
         term = "alacritty"; # Default terminal command;
         font = "Intel One Mono"; # Selected font
@@ -180,7 +181,8 @@
       pkgs-stable = import inputs.nixpkgs-stable 
       {
         system = systemSettings.system;
-        config = {
+        config = 
+        {
           allowUnfree = true;
           allowUnfreePredicate = (_: true);
         };
@@ -188,19 +190,22 @@
 
       pkgs-unstable = import inputs.nixpkgs-patched {
         system = systemSettings.system;
-        config = {
+        config = 
+        {
           allowUnfree = true;
           allowUnfreePredicate = (_: true);
         };
         overlays = [ inputs.rust-overlay.overlays.default ];
       };
 
-      pkgs-emacs = import inputs.emacs-pin-nixpkgs {
+      pkgs-emacs = import inputs.emacs-pin-nixpkgs 
+      {
         system = systemSettings.system;
       };
 
 
-      pkgs-nwg-dock-hyprland = import inputs.nwg-dock-hyprland-pin-nixpkgs {
+      pkgs-nwg-dock-hyprland = import inputs.nwg-dock-hyprland-pin-nixpkgs 
+      {
         system = systemSettings.system;
       };
 
@@ -224,8 +229,7 @@
       forAllSystems = inputs.nixpkgs.lib.genAttrs supportedSystems;
 
       # Attribute set of nixpkgs for each system:
-      nixpkgsFor =
-        forAllSystems (system: import inputs.nixpkgs { inherit system; });
+      nixpkgsFor = forAllSystems (system: import inputs.nixpkgs { inherit system; });
 
     in 
     {
@@ -237,7 +241,8 @@
           modules = [
             (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") # load home.nix from selected PROFILE
           ];
-          extraSpecialArgs = {
+          extraSpecialArgs = 
+          {
             # pass config variables from above
             inherit pkgs-stable;
             inherit pkgs-emacs;
@@ -255,8 +260,7 @@
           system = systemSettings.system;
           modules = 
           [
-            (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
-            ./system/bin/phoenix.nix
+            (./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")./system/bin/phoenix.nix
           ]; # load configuration.nix from selected PROFILE
           specialArgs = 
           {
@@ -271,10 +275,12 @@
       nixOnDroidConfigurations = 
       {
         inherit pkgs;
-        default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        default = inputs.nix-on-droid.lib.nixOnDroidConfiguration 
+        {
           modules = [ ./profiles/nix-on-droid/configuration.nix ];
         };
-        extraSpecialArgs = {
+        extraSpecialArgs = 
+        {
           # pass config variables from above
           inherit pkgs-stable;
           inherit pkgs-emacs;

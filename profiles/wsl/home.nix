@@ -17,7 +17,7 @@
               ../../user/style/stylix.nix # Styling and themes for my apps
             ];
 
-  home.stateVersion = "22.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
     # Core

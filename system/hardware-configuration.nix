@@ -24,17 +24,20 @@
   systemd.services.root-suspend = {
     enable = true;
     description = "Root systemd suspend prehook";
-    unitConfig = {
+    unitConfig = 
+    {
       Description = "Root systemd suspend prehook";
       Before = "sleep.target";
     };
-    serviceConfig = {
+    serviceConfig = 
+    {
       Type = "simple";
       ExecStart = "${pkgs.uhubctl}/bin/uhubctl -a off";
     };
     wantedBy = [ "sleep.target" ];
   };
-  systemd.services.root-resume = {
+  systemd.services.root-resume = 
+  {
     enable = true;
     description = "Root systemd suspend posthook";
     unitConfig = {
@@ -55,7 +58,8 @@
     "vm.dirty_ratio" = 5;
   };
 
-  services.btrfs.autoScrub = {
+  services.btrfs.autoScrub = 
+  {
     enable = true;
     interval = "weekly";
   };
